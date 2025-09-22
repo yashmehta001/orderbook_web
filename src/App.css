@@ -1,0 +1,273 @@
+/* Center the app content gracefully */
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+}
+
+/* Card refinements */
+.auth-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 1.25rem; /* rounded-xl for smoother corners */
+  padding: 2rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* subtler shadow */
+  width: 100%;
+  max-width: 450px; /* Increased width for a larger card */
+  text-align: center; /* Center the card content */
+  margin-left: auto;  /* This shifts the card left a bit */
+  margin-right: auto; /* Centers the card horizontally */
+}
+
+/* Inputs */
+.auth-input {
+  width: 95%;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.75rem; /* slightly rounded */
+  padding: 0.85rem;
+  font-size: 1rem; /* Slightly larger font */
+  background-color: #f9fafb; /* subtle background */
+  margin-bottom: 1.25rem; /* Increase space between inputs */
+}
+
+.auth-input:focus {
+  width: 95%;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.75rem; /* slightly rounded */
+  padding: 0.85rem;
+  font-size: 1rem; /* Slightly larger font */
+  background-color: #f9fafb; /* subtle background */
+  margin-bottom: 1.25rem;
+  outline: none;
+  border-color: #6b7280; /* gray-500 */
+  box-shadow: 0 0 0 2px #e5e7eb; /* subtle focus ring */
+}
+
+/* Button */
+.auth-button {
+  width: 100%;
+  background-color: #111827; /* gray-900 */
+  color: white;
+  border-radius: 0.75rem; /* match input radius */
+  padding: 0.85rem;
+  font-weight: 600; /* bolder text */
+  font-size: 1rem; /* bigger text for button */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1.25rem; /* more space below button */
+}
+
+.auth-button:hover {
+  background-color: #374151; /* gray-700 */
+}
+
+/* Switch link */
+.auth-switch {
+  color: #374151;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 0.75rem; /* slightly more space above switch link */
+  font-size: 1rem;
+}
+
+.auth-switch:hover {
+  text-decoration: underline;
+}
+
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #111827;
+  cursor: pointer;
+}
+
+.navbar-right button {
+  margin-left: 1rem;
+}
+
+.navbar-button {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  background-color: #111827;
+  color: white;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar-button:hover {
+  background-color: #374151;
+}
+
+.navbar-button-outline {
+  background-color: transparent;
+  color: #111827;
+  border: 1px solid #111827;
+}
+
+.navbar-button-outline:hover {
+  background-color: #f3f4f6;
+}
+
+.navbar-button-logout {
+  background-color: #ef4444; /* red-500 */
+}
+
+.navbar-button-logout:hover {
+  background-color: #dc2626; /* red-600 */
+}
+
+
+/* Home Page Layout */
+.home-container {
+  display: flex;
+  height: calc(100vh - 64px); /* full screen minus navbar height */
+  padding: 1rem;
+  gap: 1rem;
+  background-color: #f9fafb;
+  overflow: hidden; /* remove page scroll */
+}
+
+.home-left {
+  flex: 1; /* left half */
+  display: flex;
+  flex-direction: column;
+}
+
+.home-right {
+  flex: 1; /* right half */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* space between top and bottom */
+}
+
+.home-right-top,
+.home-right-bottom {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* scroll individually */
+  padding-bottom: 1rem; /* extra space at bottom */
+}
+
+.home-left > .component-card {
+  flex: 1;
+  overflow-y: auto; /* scroll if content overflows */
+  padding-bottom: 1rem;
+}
+
+/* Component Card Style */
+.component-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.component-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+
+.orderbook-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.orderbook-section {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem; /* avoid scrollbar overlap */
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  background-color: #f3f4f6;
+  border-radius: 0.3rem;
+  font-size: 0.875rem;
+}
+
+.table-container {
+  flex: 1;
+  overflow-y: auto; /* scroll if table is too long */
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.orders-table thead {
+  background-color: #f3f4f6;
+  position: sticky;
+  top: 0;
+}
+
+.orders-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.orders-table td,
+.orders-table th {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #ef4444; /* red */
+  transition: color 0.2s;
+}
+
+.delete-button:hover {
+  color: #b91c1c; /* darker red on hover */
+}
