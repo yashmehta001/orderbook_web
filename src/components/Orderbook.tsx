@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { request } from "../services/request";
+import OrderModal from "./OrderModal";
 
 interface Order {
   stockName: string;
@@ -17,26 +18,39 @@ const Orderbook: React.FC = () => {
   const [side, setSide] = useState("");
   const [orders, setOrders] = useState<OrderbookData>({ BUY: [], SELL: [] });
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [orderSide, setOrderSide] = useState<"BUY" | "SELL">("BUY");
+
+  const handleOpenModal = (side: "BUY" | "SELL") => {
+    setOrderSide(side);
+    setModalOpen(true);
+  };
+  const handleCloseModal = () => setModalOpen(false);
+
+  const handlePlaceOrder = (order: {
+    stockName: string;
+    side: "BUY" | "SELL";
+    quantity: number;
+    price: number;
+  }) => {
+    console.log("Order placed:", order);
+    // 🚀 Later you can call your API here
+  };
 
   const fetchOrders = React.useCallback(async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("authToken") ?? '';
-
-      const params: { stockName?: string; side?: string } = {};
-      if (stockName) params.stockName = stockName;
-      if (side) params.side = side;
-
       const response = await request<{
         Error: boolean;
-        message: string | string[] | null;
         data: OrderbookData;
       }>({
         method: "GET",
         url: "/orderbook/order-books",
-          data: params, 
-        token,
-        // showToast: false // optional, disable toasts if you want
+        data: {
+          stockName: stockName || undefined,
+          side: side || undefined,
+        },
+        showToast: false,
       });
 
       if (response && !response.Error) {
@@ -55,7 +69,24 @@ const Orderbook: React.FC = () => {
 
   return (
     <div className="component-card">
-      <h3 className="component-title">Orderbook</h3>
+      {/* Header with buttons */}
+      <div className="component-header">
+        <h3 className="component-title">Orderbook</h3>
+        <div className="button-group">
+          <button
+            onClick={() => handleOpenModal("BUY")}
+            className="btn btn-buy"
+          >
+            Buy
+          </button>
+          <button
+            onClick={() => handleOpenModal("SELL")}
+            className="btn btn-sell"
+          >
+            Sell
+          </button>
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="flex gap-2 mb-3">
@@ -118,6 +149,12 @@ const Orderbook: React.FC = () => {
           </div>
         </div>
       )}
+      <OrderModal
+        isOpen={isModalOpen}
+        side={orderSide}
+        onClose={handleCloseModal}
+        onSubmit={handlePlaceOrder}
+      />
     </div>
   );
 };
