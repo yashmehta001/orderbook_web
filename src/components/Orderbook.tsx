@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getRequest } from "../services/api"; // your reusable API function
-import "../App.css";
+import { request } from "../services/request";
 
 interface Order {
   stockName: string;
@@ -22,12 +21,23 @@ const Orderbook: React.FC = () => {
   const fetchOrders = React.useCallback(async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("authToken");
+      const token = localStorage.getItem("authToken") ?? '';
+
       const params: { stockName?: string; side?: string } = {};
       if (stockName) params.stockName = stockName;
       if (side) params.side = side;
 
-      const response = await getRequest("/orderbook/order-books", params, token || "");
+      const response = await request<{
+        Error: boolean;
+        message: string | string[] | null;
+        data: OrderbookData;
+      }>({
+        method: "GET",
+        url: "/orderbook/order-books",
+          data: params, 
+        token,
+        // showToast: false // optional, disable toasts if you want
+      });
 
       if (response && !response.Error) {
         setOrders(response.data);
@@ -39,7 +49,6 @@ const Orderbook: React.FC = () => {
     }
   }, [stockName, side]);
 
-  // Fetch orders whenever stockName or side changes
   useEffect(() => {
     fetchOrders();
   }, [stockName, side, fetchOrders]);

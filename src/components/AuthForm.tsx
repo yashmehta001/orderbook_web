@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { signupUser, loginUser } from "../services/auth";
-import "../App.css";
 
 type AuthMode = "signup" | "login";
 

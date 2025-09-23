@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SignupForm from "./components/SignupForm";
 import LoginForm from "./components/LoginForm";
 import Home from "./pages/Home";
+import './App.css'
 
 function App() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any | null>(null);
 
   useEffect(() => {

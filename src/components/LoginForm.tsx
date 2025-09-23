@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/auth";
-import "../App.css";
 
 interface LoginFormProps {
   switchToSignup: () => void;
@@ -9,7 +8,10 @@ interface LoginFormProps {
   onLoginSuccess: (user: any) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ switchToSignup, onLoginSuccess }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  switchToSignup,
+  onLoginSuccess,
+}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",

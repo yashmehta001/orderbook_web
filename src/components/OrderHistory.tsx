@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getRequest } from "../services/api";
-import "../App.css";
+import { request } from "../services/request";
 
 interface Order {
   id: string;
@@ -23,8 +22,16 @@ const OrderHistory: React.FC = () => {
   const fetchOrderHistory = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("authToken");
-      const response = await getRequest("/order-history", {}, token || "");
+      const response = await request<{
+        Error: boolean;
+        message: string | string[] | null;
+        data: Transaction[];
+      }>({
+        method: "GET",
+        url: "/order-history",
+        // showToast: false, // disable toasts if you want silent fetch
+      });
+
       if (response && !response.Error) {
         setHistory(response.data);
       }
@@ -63,6 +70,7 @@ const OrderHistory: React.FC = () => {
                 history.map((txn) =>
                   txn.orders.map((order, index) => (
                     <tr key={order.id}>
+                      {/* Merge transactionId column */}
                       {index === 0 && (
                         <td rowSpan={txn.orders.length}>
                           {txn.transactionId.slice(0, 6)}
