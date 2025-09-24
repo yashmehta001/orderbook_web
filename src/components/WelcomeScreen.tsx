@@ -1,5 +1,4 @@
 import React from "react";
-import "../App.css";
 
 interface WelcomeScreenProps {
   user: {
@@ -20,7 +19,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ user, onLogout }) => {
       <p className="text-gray-700 mb-6">
         Available Funds: <span className="font-semibold">${user.funds}</span>
       </p>
-      <button onClick={onLogout} className="auth-button bg-red-500 hover:bg-red-600">
+      <button
+        onClick={onLogout}
+        className="auth-button bg-red-500 hover:bg-red-600"
+      >
         Logout
       </button>
     </div>

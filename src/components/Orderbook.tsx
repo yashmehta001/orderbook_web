@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getRequest } from "../services/api"; // your reusable API function
-import "../App.css";
+import { request } from "../services/request";
+import OrderModal from "./OrderModal";
 
 interface Order {
   stockName: string;
@@ -13,21 +13,39 @@ interface OrderbookData {
   SELL: Order[];
 }
 
-const Orderbook: React.FC = () => {
+interface OrderbookProps {
+  reload: () => void;
+}
+
+const Orderbook: React.FC <OrderbookProps> = ({reload} ) => {
   const [stockName, setStockName] = useState("");
   const [side, setSide] = useState("");
   const [orders, setOrders] = useState<OrderbookData>({ BUY: [], SELL: [] });
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [orderSide, setOrderSide] = useState<"BUY" | "SELL">("BUY");
+
+  const handleOpenModal = (side: "BUY" | "SELL") => {
+    setOrderSide(side);
+    setModalOpen(true);
+  };
+  const handleCloseModal = () => {setModalOpen(false); reload();};
 
   const fetchOrders = React.useCallback(async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("authToken");
-      const params: { stockName?: string; side?: string } = {};
-      if (stockName) params.stockName = stockName;
-      if (side) params.side = side;
-
-      const response = await getRequest("/orderbook/order-books", params, token || "");
+      const response = await request<{
+        Error: boolean;
+        data: OrderbookData;
+      }>({
+        method: "GET",
+        url: "/orderbook/order-books",
+        data: {
+          stockName: stockName || undefined,
+          side: side || undefined,
+        },
+        showToast: false,
+      });
 
       if (response && !response.Error) {
         setOrders(response.data);
@@ -39,14 +57,30 @@ const Orderbook: React.FC = () => {
     }
   }, [stockName, side]);
 
-  // Fetch orders whenever stockName or side changes
   useEffect(() => {
     fetchOrders();
   }, [stockName, side, fetchOrders]);
 
   return (
     <div className="component-card">
-      <h3 className="component-title">Orderbook</h3>
+      {/* Header with buttons */}
+      <div className="component-header">
+        <h3 className="component-title">Orderbook</h3>
+        <div className="button-group">
+          <button
+            onClick={() => handleOpenModal("BUY")}
+            className="btn btn-buy"
+          >
+            Buy
+          </button>
+          <button
+            onClick={() => handleOpenModal("SELL")}
+            className="btn btn-sell"
+          >
+            Sell
+          </button>
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="flex gap-2 mb-3">
@@ -109,6 +143,12 @@ const Orderbook: React.FC = () => {
           </div>
         </div>
       )}
+      <OrderModal
+        isOpen={isModalOpen}
+        side={orderSide}
+        onClose={handleCloseModal}
+              reload={reload}
+      />
     </div>
   );
 };

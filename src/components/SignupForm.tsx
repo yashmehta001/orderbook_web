@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signupUser } from "../services/auth";
-import "../App.css";
 
 interface SignupFormProps {
   switchToLogin: () => void;
@@ -9,7 +8,10 @@ interface SignupFormProps {
   onSignupSuccess: (user: any) => void;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ switchToLogin, onSignupSuccess }) => {
+const SignupForm: React.FC<SignupFormProps> = ({
+  switchToLogin,
+  onSignupSuccess,
+}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",

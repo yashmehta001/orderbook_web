@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
 import WelcomeScreen from "./WelcomeScreen";
-import "../App.css";
 
 const AuthPage: React.FC = () => {
   const [mode, setMode] = useState<"signup" | "login">("signup");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLoginSuccess = (userData: any) => {
     setUser(userData);
   };
@@ -26,10 +27,10 @@ const AuthPage: React.FC = () => {
   return (
     <div className="app-container">
       {mode === "signup" ? (
-              <SignupForm
-                  switchToLogin={() => setMode("login")}
-                  onSignupSuccess={handleLoginSuccess}
-              />
+        <SignupForm
+          switchToLogin={() => setMode("login")}
+          onSignupSuccess={handleLoginSuccess}
+        />
       ) : (
         <LoginForm
           switchToSignup={() => setMode("signup")}

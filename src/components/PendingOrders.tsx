@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { getRequest, deleteRequest } from "../services/api"; // postRequest will be used for delete
-import "../App.css";
-import { FaTrash } from "react-icons/fa"; // react-icons for delete icon
+import { request } from "../services/request";
+import { FaTrash } from "react-icons/fa";
 
 interface Order {
   id: string;
@@ -20,12 +19,19 @@ const PendingOrders: React.FC = () => {
   const fetchPendingOrders = useCallback(async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("authToken");
-      const params: { stockName?: string; side?: string } = {};
-      if (stockName) params.stockName = stockName;
-      if (side) params.side = side;
-
-      const response = await getRequest("/orderbook", params, token || "");
+      const response = await request<{
+        Error: boolean;
+        message: string | string[] | null;
+        data: Order[];
+      }>({
+        method: "GET",
+        url: "/orderbook/pending-orders",
+        data: {
+          stockName: stockName || undefined,
+          side: side || undefined,
+        },
+        showToast: false, // avoid toast spam when fetching
+      });
 
       if (response && !response.Error) {
         setOrders(response.data);
@@ -43,10 +49,16 @@ const PendingOrders: React.FC = () => {
 
   const handleDelete = async (orderId: string) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const data = await deleteRequest(`/orderbook/${orderId}`,token|| "");
-      if (!data.Error) {
-        fetchPendingOrders(); // Refresh the list
+      const response = await request<{
+        Error: boolean;
+        message: string | string[] | null;
+      }>({
+        method: "DELETE",
+        url: `/orderbook/pending-orders/${orderId}`,
+      });
+
+      if (response && !response.Error) {
+        fetchPendingOrders(); // Refresh after delete
       }
     } catch (err) {
       console.error("Error deleting order:", err);
@@ -89,7 +101,7 @@ const PendingOrders: React.FC = () => {
                 <th>Side</th>
                 <th>Price</th>
                 <th>Quantity</th>
-                <th></th> {/* Delete column */}
+                <th></th>
               </tr>
             </thead>
             <tbody>

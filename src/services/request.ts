@@ -4,40 +4,55 @@ import api from "./api";
 interface RequestOptions {
   method: "GET" | "POST" | "PUT" | "DELETE";
   url: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params?: Record<string, any>;
+  token?: string;
   showToast?: boolean; // default true
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const request = async <T = any>({
   method,
   url,
   data,
+  params,
   showToast = true,
 }: RequestOptions): Promise<T | null> => {
   try {
-    const response = await api.request({ method, url, data });
+    const token = localStorage.getItem("authToken") ?? '';
+    const response = await api.request({
+      method,
+      url,
+      data,
+      params,
+      headers: token ? { Authorization: token } : undefined,
+    });
 
     const resData = response.data;
 
-    // Handle toast messages
+    // Toast notifications
     if (showToast) {
       if (resData.Error) {
-        if (Array.isArray(resData.message)) {
-          resData.message.forEach((msg: string) => toast.error(msg));
-        } else {
-          toast.error(resData.message || "Something went wrong");
-        }
+        const messages = Array.isArray(resData.message)
+          ? resData.message
+          : [resData.message || "Something went wrong"];
+        messages.forEach((msg: string) => toast.error(msg));
       } else {
-        if (Array.isArray(resData.message)) {
-          resData.message.forEach((msg: string) => toast.success(msg));
-        } else if (resData.message) {
-          toast.success(resData.message);
+        if (resData.message) {
+          const messages = Array.isArray(resData.message)
+            ? resData.message
+            : [resData.message];
+          messages.forEach((msg: string) => toast.success(msg));
         }
       }
     }
 
     return resData;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
+    console.error("API request error:", err);
     toast.error(err.response?.data?.message || "Request failed");
     return null;
   }
