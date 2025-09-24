@@ -10,6 +10,11 @@ function App() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any | null>(null);
 
+  const [reloadKey, setReloadKey] = useState(0);
+
+  const reloadAll = () => {
+    setReloadKey(prev => prev + 1);
+  };
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -22,12 +27,13 @@ function App() {
     localStorage.removeItem("authToken");
     setUser(null);
   };
+  
 
   return (
     <Router>
       <Navbar isLoggedIn={!!user} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Home isLoggedIn={!!user} />} />
+        <Route path="/" element={<Home key={reloadKey} isLoggedIn={!!user} reload={reloadAll}/>} />
         <Route
           path="/signup"
           element={<SignupForm switchToLogin={() => window.location.href = "/login"} onSignupSuccess={setUser} />}

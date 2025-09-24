@@ -25,7 +25,7 @@ const PendingOrders: React.FC = () => {
         data: Order[];
       }>({
         method: "GET",
-        url: "/orderbook",
+        url: "/orderbook/pending-orders",
         data: {
           stockName: stockName || undefined,
           side: side || undefined,
@@ -54,7 +54,7 @@ const PendingOrders: React.FC = () => {
         message: string | string[] | null;
       }>({
         method: "DELETE",
-        url: `/orderbook/${orderId}`,
+        url: `/orderbook/pending-orders/${orderId}`,
       });
 
       if (response && !response.Error) {

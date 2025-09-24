@@ -1,3 +1,10 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Disable page scroll */
+}
+
 /* Center the app content gracefully */
 .app-container {
   display: flex;
@@ -80,78 +87,141 @@
 
 /* Navbar Styles */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 2rem;
-  background-color: #ffffff;
+  width: 100%;
+  height: 70px;
+  background: linear-gradient(to right, #ffffff, #f9fafb);
   border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
+/* Left Section */
 .navbar-left {
   display: flex;
   align-items: center;
 }
 
 .navbar-logo {
+  font-size: 1.6rem;
   font-weight: 700;
-  font-size: 1.5rem;
-  color: #111827;
+  color: #2563eb;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.navbar-right button {
-  margin-left: 1rem;
+.navbar-logo-accent {
+  color: #1f2937;
 }
 
-.navbar-button {
-  padding: 0.5rem 1.25rem;
+.navbar-logo:hover {
+  color: #1d4ed8;
+}
+
+/* Center Section - User Info */
+.navbar-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827;
+}
+
+.user-funds {
   font-size: 0.9rem;
-  border-radius: 0.5rem;
-  background-color: #111827;
+  color: #6b7280;
+}
+
+/* Input in Navbar */
+/* User Profile Section */
+.navbar-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Avatar + Details */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.user-funds {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* Inline Funds Update */
+.funds-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.funds-form input {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  width: 100px;
+  transition: border-color 0.2s ease;
+}
+
+.funds-form input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.funds-form button {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  border-radius: 0.4rem;
+  border: none;
+  background-color: #2563eb;
   color: white;
   font-weight: 500;
-  border: none;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.navbar-button:hover {
-  background-color: #374151;
+.funds-form button:hover {
+  background-color: #1d4ed8;
 }
 
-.navbar-button-outline {
-  background-color: transparent;
-  color: #111827;
-  border: 1px solid #111827;
-}
-
-.navbar-button-outline:hover {
-  background-color: #f3f4f6;
-}
-
-.navbar-button-logout {
-  background-color: #ef4444; /* red-500 */
-}
-
-.navbar-button-logout:hover {
-  background-color: #dc2626; /* red-600 */
-}
 
 
 /* Home Page Layout */
 .home-container {
   display: flex;
-  height: calc(100vh - 64px); /* full screen minus navbar height */
+  height: calc(100vh - 70px); /* full screen minus navbar height */
   padding: 1rem;
+  padding-right: 1.5rem; /* ✅ extra breathing room */
   gap: 1rem;
   background-color: #f9fafb;
-  overflow: hidden; /* remove page scroll */
+  overflow: hidden; /* no global scroll */
+  box-sizing: border-box; /* include padding in width calc */
 }
+
 
 .home-left {
   flex: 1; /* left half */
@@ -328,6 +398,12 @@
   align-items: center;
   z-index: 2000;
 }
+.modal-form label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151; /* gray-700 */
+  margin-bottom: 0.25rem;
+}
 
 .modal-content {
   background: white;
@@ -384,3 +460,14 @@
   background-color: #374151;
 }
 
+.modal-summary {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

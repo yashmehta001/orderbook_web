@@ -13,7 +13,11 @@ interface OrderbookData {
   SELL: Order[];
 }
 
-const Orderbook: React.FC = () => {
+interface OrderbookProps {
+  reload: () => void;
+}
+
+const Orderbook: React.FC <OrderbookProps> = ({reload} ) => {
   const [stockName, setStockName] = useState("");
   const [side, setSide] = useState("");
   const [orders, setOrders] = useState<OrderbookData>({ BUY: [], SELL: [] });
@@ -25,17 +29,7 @@ const Orderbook: React.FC = () => {
     setOrderSide(side);
     setModalOpen(true);
   };
-  const handleCloseModal = () => setModalOpen(false);
-
-  const handlePlaceOrder = (order: {
-    stockName: string;
-    side: "BUY" | "SELL";
-    quantity: number;
-    price: number;
-  }) => {
-    console.log("Order placed:", order);
-    // 🚀 Later you can call your API here
-  };
+  const handleCloseModal = () => {setModalOpen(false); reload();};
 
   const fetchOrders = React.useCallback(async () => {
     setLoading(true);
@@ -153,7 +147,7 @@ const Orderbook: React.FC = () => {
         isOpen={isModalOpen}
         side={orderSide}
         onClose={handleCloseModal}
-        onSubmit={handlePlaceOrder}
+              reload={reload}
       />
     </div>
   );

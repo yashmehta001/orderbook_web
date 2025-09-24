@@ -4,10 +4,11 @@ import PendingOrders from "../components/PendingOrders";
 import OrderHistory from "../components/OrderHistory";
 
 interface HomeProps {
-  isLoggedIn: boolean;
+    isLoggedIn: boolean;
+    reload: () => void
 }
 
-const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
+const Home: React.FC<HomeProps> = ({ isLoggedIn ,reload}) => {
   if (!isLoggedIn) {
     return (
       <div className="app-container">
@@ -24,7 +25,7 @@ const Home: React.FC<HomeProps> = ({ isLoggedIn }) => {
   return (
     <div className="home-container">
       <div className="home-left">
-        <Orderbook />
+        <Orderbook  reload={reload}/>
       </div>
       <div className="home-right">
         <div className="home-right-top">
