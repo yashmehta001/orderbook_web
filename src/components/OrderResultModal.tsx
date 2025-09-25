@@ -14,8 +14,8 @@ const OrderResultModal: React.FC<OrderResultModalProps> = ({
 }) => {
   if (!isOpen || !data) {
     console.log("OrderResultModal: Not open or no data");
-    return null
-  };
+    return null;
+  }
 
   return (
     <div className="modal-overlay">
@@ -54,6 +54,7 @@ const OrderResultModal: React.FC<OrderResultModalProps> = ({
           className="table-container"
           style={{ maxHeight: "200px", overflowY: "auto" }}
         >
+          <h3 className="modal-subtitle">Executed Trades</h3>
           <table className="orders-table">
             <thead>
               <tr>
@@ -82,6 +83,29 @@ const OrderResultModal: React.FC<OrderResultModalProps> = ({
             </tbody>
           </table>
         </div>
+
+        {/* ✅ Remaining Order Section */}
+        {data.remainingOrder && (
+          <div className="remaining-order">
+            <h3 className="modal-subtitle">Remaining Order</h3>
+            <table className="orders-table">
+              <thead>
+                <tr>
+                  <th>Stock</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{data.remainingOrder.stockName}</td>
+                  <td>${Number(data.remainingOrder.price).toFixed(2)}</td>
+                  <td>{data.remainingOrder.quantity}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* ✅ Close Button */}
         <div className="modal-buttons">
