@@ -31,7 +31,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar isLoggedIn={!!user} onLogout={handleLogout} />
+      <Navbar isLoggedIn={!!user} onLogout={handleLogout} key={reloadKey} />
       <Routes>
         <Route path="/" element={<Home key={reloadKey} isLoggedIn={!!user} reload={reloadAll}/>} />
         <Route

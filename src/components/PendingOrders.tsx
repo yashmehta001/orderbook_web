@@ -26,7 +26,7 @@ const PendingOrders: React.FC = () => {
       }>({
         method: "GET",
         url: "/orderbook/pending-orders",
-        data: {
+        params: {
           stockName: stockName || undefined,
           side: side || undefined,
         },
