@@ -40,7 +40,7 @@ const Orderbook: React.FC <OrderbookProps> = ({reload} ) => {
       }>({
         method: "GET",
         url: "/orderbook/order-books",
-        data: {
+        params: {
           stockName: stockName || undefined,
           side: side || undefined,
         },

@@ -48,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
       const data = await request<{ data: { fullName: string; funds: number } }>(
         {
           method: "PUT",
-          url: "/user/update-funds",
+          url: "/wallet/update-funds",
           data: payload,
         }
       );
